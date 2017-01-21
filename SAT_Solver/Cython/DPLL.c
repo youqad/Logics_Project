@@ -1480,15 +1480,15 @@ static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_functools[] = "functools";
 static const char __pyx_k_itertools[] = "itertools";
 static const char __pyx_k_takewhile[] = "takewhile";
-static const char __pyx_k_test2_txt[] = "./test2.txt";
-static const char __pyx_k_test5_txt[] = "./test5.txt";
-static const char __pyx_k_test6_txt[] = "./test6.txt";
 static const char __pyx_k_valuation[] = "valuation";
 static const char __pyx_k_CNF___iter[] = "CNF.__iter__";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_cfunc_to_py[] = "cfunc.to_py";
 static const char __pyx_k_intersection[] = "intersection";
 static const char __pyx_k_stringsource[] = "stringsource";
+static const char __pyx_k_Examples_test2_txt[] = "../Examples/test2.txt";
+static const char __pyx_k_Examples_test5_txt[] = "../Examples/test5.txt";
+static const char __pyx_k_Examples_test6_txt[] = "../Examples/test6.txt";
 static const char __pyx_k_DPLL_locals_genexpr[] = "DPLL.<locals>.genexpr";
 static const char __pyx_k_len___locals_genexpr[] = "__len__.<locals>.genexpr";
 static const char __pyx_k_init___locals_genexpr[] = "__init__.<locals>.genexpr";
@@ -1500,6 +1500,9 @@ static PyObject *__pyx_kp_s_0;
 static PyObject *__pyx_n_s_CNF___iter;
 static PyObject *__pyx_n_s_DPLL;
 static PyObject *__pyx_n_s_DPLL_locals_genexpr;
+static PyObject *__pyx_kp_s_Examples_test2_txt;
+static PyObject *__pyx_kp_s_Examples_test5_txt;
+static PyObject *__pyx_kp_s_Examples_test6_txt;
 static PyObject *__pyx_n_s_Pyx_CFunc_bint____CNF____bint;
 static PyObject *__pyx_n_s_Pyx_CFunc_bint____CNF____bint_2;
 static PyObject *__pyx_n_s_Pyx_CFunc_bint____bint____set;
@@ -1552,9 +1555,6 @@ static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_t;
 static PyObject *__pyx_n_s_takewhile;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_test2_txt;
-static PyObject *__pyx_kp_s_test5_txt;
-static PyObject *__pyx_kp_s_test6_txt;
 static PyObject *__pyx_n_s_tests;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_union;
@@ -8036,6 +8036,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_CNF___iter, __pyx_k_CNF___iter, sizeof(__pyx_k_CNF___iter), 0, 0, 1, 1},
   {&__pyx_n_s_DPLL, __pyx_k_DPLL, sizeof(__pyx_k_DPLL), 0, 0, 1, 1},
   {&__pyx_n_s_DPLL_locals_genexpr, __pyx_k_DPLL_locals_genexpr, sizeof(__pyx_k_DPLL_locals_genexpr), 0, 0, 1, 1},
+  {&__pyx_kp_s_Examples_test2_txt, __pyx_k_Examples_test2_txt, sizeof(__pyx_k_Examples_test2_txt), 0, 0, 1, 0},
+  {&__pyx_kp_s_Examples_test5_txt, __pyx_k_Examples_test5_txt, sizeof(__pyx_k_Examples_test5_txt), 0, 0, 1, 0},
+  {&__pyx_kp_s_Examples_test6_txt, __pyx_k_Examples_test6_txt, sizeof(__pyx_k_Examples_test6_txt), 0, 0, 1, 0},
   {&__pyx_n_s_Pyx_CFunc_bint____CNF____bint, __pyx_k_Pyx_CFunc_bint____CNF____bint, sizeof(__pyx_k_Pyx_CFunc_bint____CNF____bint), 0, 0, 1, 1},
   {&__pyx_n_s_Pyx_CFunc_bint____CNF____bint_2, __pyx_k_Pyx_CFunc_bint____CNF____bint_2, sizeof(__pyx_k_Pyx_CFunc_bint____CNF____bint_2), 0, 0, 1, 1},
   {&__pyx_n_s_Pyx_CFunc_bint____bint____set, __pyx_k_Pyx_CFunc_bint____bint____set, sizeof(__pyx_k_Pyx_CFunc_bint____bint____set), 0, 0, 1, 1},
@@ -8088,9 +8091,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {&__pyx_n_s_takewhile, __pyx_k_takewhile, sizeof(__pyx_k_takewhile), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_kp_s_test2_txt, __pyx_k_test2_txt, sizeof(__pyx_k_test2_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_test5_txt, __pyx_k_test5_txt, sizeof(__pyx_k_test5_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_test6_txt, __pyx_k_test6_txt, sizeof(__pyx_k_test6_txt), 0, 0, 1, 0},
   {&__pyx_n_s_tests, __pyx_k_tests, sizeof(__pyx_k_tests), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_union, __pyx_k_union, sizeof(__pyx_k_union), 0, 0, 1, 1},
@@ -8220,7 +8220,7 @@ static int __Pyx_InitCachedConstants(void) {
  * tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
  * tests.append(CNF((1,),(-1,)))             # <<<<<<<<<<<<<<
  * tests.append(CNF((1,-1), (2,)))
- * # tests.append(CNF("./test.txt"))
+ * # tests.append(CNF("../Examples/test.txt"))
  */
   __pyx_tuple__22 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
@@ -8236,8 +8236,8 @@ static int __Pyx_InitCachedConstants(void) {
  * tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
  * tests.append(CNF((1,),(-1,)))
  * tests.append(CNF((1,-1), (2,)))             # <<<<<<<<<<<<<<
- * # tests.append(CNF("./test.txt"))
- * tests.append(CNF("./test2.txt"))
+ * # tests.append(CNF("../Examples/test.txt"))
+ * tests.append(CNF("../Examples/test2.txt"))
  */
   __pyx_tuple__25 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_neg_1); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
@@ -8251,34 +8251,34 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "DPLL.pyx":174
  * tests.append(CNF((1,-1), (2,)))
- * # tests.append(CNF("./test.txt"))
- * tests.append(CNF("./test2.txt"))             # <<<<<<<<<<<<<<
- * # tests.append(CNF("./test3.txt"))
- * # tests.append(CNF("./test4.txt"))
+ * # tests.append(CNF("../Examples/test.txt"))
+ * tests.append(CNF("../Examples/test2.txt"))             # <<<<<<<<<<<<<<
+ * # tests.append(CNF("../Examples/test3.txt"))
+ * # tests.append(CNF("../Examples/test4.txt"))
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_test2_txt); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_Examples_test2_txt); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "DPLL.pyx":177
- * # tests.append(CNF("./test3.txt"))
- * # tests.append(CNF("./test4.txt"))
- * tests.append(CNF("./test5.txt"))             # <<<<<<<<<<<<<<
- * tests.append(CNF("./test6.txt"))
+ * # tests.append(CNF("../Examples/test3.txt"))
+ * # tests.append(CNF("../Examples/test4.txt"))
+ * tests.append(CNF("../Examples/test5.txt"))             # <<<<<<<<<<<<<<
+ * tests.append(CNF("../Examples/test6.txt"))
  * 
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_test5_txt); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_Examples_test5_txt); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "DPLL.pyx":178
- * # tests.append(CNF("./test4.txt"))
- * tests.append(CNF("./test5.txt"))
- * tests.append(CNF("./test6.txt"))             # <<<<<<<<<<<<<<
+ * # tests.append(CNF("../Examples/test4.txt"))
+ * tests.append(CNF("../Examples/test5.txt"))
+ * tests.append(CNF("../Examples/test6.txt"))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_test6_txt); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_Examples_test6_txt); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
   __Pyx_RefNannyFinishContext();
@@ -8563,7 +8563,7 @@ PyMODINIT_FUNC PyInit_DPLL(void)
  * tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
  * tests.append(CNF((1,),(-1,)))             # <<<<<<<<<<<<<<
  * tests.append(CNF((1,-1), (2,)))
- * # tests.append(CNF("./test.txt"))
+ * # tests.append(CNF("../Examples/test.txt"))
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_tests); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -8577,8 +8577,8 @@ PyMODINIT_FUNC PyInit_DPLL(void)
  * tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
  * tests.append(CNF((1,),(-1,)))
  * tests.append(CNF((1,-1), (2,)))             # <<<<<<<<<<<<<<
- * # tests.append(CNF("./test.txt"))
- * tests.append(CNF("./test2.txt"))
+ * # tests.append(CNF("../Examples/test.txt"))
+ * tests.append(CNF("../Examples/test2.txt"))
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_tests); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8590,10 +8590,10 @@ PyMODINIT_FUNC PyInit_DPLL(void)
 
   /* "DPLL.pyx":174
  * tests.append(CNF((1,-1), (2,)))
- * # tests.append(CNF("./test.txt"))
- * tests.append(CNF("./test2.txt"))             # <<<<<<<<<<<<<<
- * # tests.append(CNF("./test3.txt"))
- * # tests.append(CNF("./test4.txt"))
+ * # tests.append(CNF("../Examples/test.txt"))
+ * tests.append(CNF("../Examples/test2.txt"))             # <<<<<<<<<<<<<<
+ * # tests.append(CNF("../Examples/test3.txt"))
+ * # tests.append(CNF("../Examples/test4.txt"))
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_tests); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -8604,10 +8604,10 @@ PyMODINIT_FUNC PyInit_DPLL(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "DPLL.pyx":177
- * # tests.append(CNF("./test3.txt"))
- * # tests.append(CNF("./test4.txt"))
- * tests.append(CNF("./test5.txt"))             # <<<<<<<<<<<<<<
- * tests.append(CNF("./test6.txt"))
+ * # tests.append(CNF("../Examples/test3.txt"))
+ * # tests.append(CNF("../Examples/test4.txt"))
+ * tests.append(CNF("../Examples/test5.txt"))             # <<<<<<<<<<<<<<
+ * tests.append(CNF("../Examples/test6.txt"))
  * 
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_tests); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
@@ -8619,9 +8619,9 @@ PyMODINIT_FUNC PyInit_DPLL(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "DPLL.pyx":178
- * # tests.append(CNF("./test4.txt"))
- * tests.append(CNF("./test5.txt"))
- * tests.append(CNF("./test6.txt"))             # <<<<<<<<<<<<<<
+ * # tests.append(CNF("../Examples/test4.txt"))
+ * tests.append(CNF("../Examples/test5.txt"))
+ * tests.append(CNF("../Examples/test6.txt"))             # <<<<<<<<<<<<<<
  * 
  * 
  */

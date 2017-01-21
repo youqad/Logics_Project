@@ -170,12 +170,12 @@ tests = []
 tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
 tests.append(CNF((1,),(-1,)))
 tests.append(CNF((1,-1), (2,)))
-# tests.append(CNF("./test.txt"))
-tests.append(CNF("./test2.txt"))
-# tests.append(CNF("./test3.txt"))
-# tests.append(CNF("./test4.txt"))
-tests.append(CNF("./test5.txt"))
-tests.append(CNF("./test6.txt"))
+# tests.append(CNF("../Examples/test.txt"))
+tests.append(CNF("../Examples/test2.txt"))
+# tests.append(CNF("../Examples/test3.txt"))
+# tests.append(CNF("../Examples/test4.txt"))
+tests.append(CNF("../Examples/test5.txt"))
+tests.append(CNF("../Examples/test6.txt"))
 
 
 for t in tests:
