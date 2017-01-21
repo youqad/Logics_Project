@@ -76,3 +76,74 @@ let naive_SAT clauses =
      done;
      false, None
   with Exit -> true, Some (!valuation);;
+
+
+let rec dpll_aux clauses suitable_valuation =
+  let base_cases clauses suitable_valuation =
+    if SetsSet.is_empty clauses then
+      Some true, Some suitable_valuation
+    else if SetsSet.fold (fun y x -> x || IntSet.is_empty y) clauses false then
+      Some false, None
+    else None, None in
+
+  let base_cases_result = base_cases clauses suitable_valuation in
+    match base_cases_result with
+      | Some bool, opt_val -> bool, opt_val
+      | _ -> (
+    let unit_clauses = SetsSet.fold (fun y x -> if IntSet.cardinal y=1 then
+                                                  IntSet.union x y
+                                        else x) clauses IntSet.empty in
+    let negation_unit_clauses = IntSet.fold (fun i set -> IntSet.add (-i) set)
+                                            unit_clauses IntSet.empty in
+    let pure_literals = SetsSet.fold IntSet.inter clauses
+        (SetsSet.fold IntSet.union clauses IntSet.empty) in
+    let unit_or_pure = IntSet.union pure_literals unit_clauses in
+    let neg_unit_or_pure = IntSet.union pure_literals negation_unit_clauses in
+    (
+      if not (IntSet.is_empty (IntSet.inter unit_clauses negation_unit_clauses))
+        then false, None
+      else
+        let new_clauses = SetsSet.fold
+            (fun clause new_clauses ->
+               if not (IntSet.is_empty (IntSet.inter unit_clauses clause)) then
+                 new_clauses
+               else
+                 SetsSet.add (IntSet.diff clause neg_unit_or_pure) new_clauses) clauses SetsSet.empty in
+        let new_suitable_valuation = IntSet.union suitable_valuation
+            (IntSet.fold (fun l set -> if l >= 0 then
+                   IntSet.add l set
+                 else set) unit_or_pure IntSet.empty) in
+        let new_base_cases_result = base_cases new_clauses new_suitable_valuation in
+        match new_base_cases_result with
+        | Some bool, opt_val -> bool, opt_val
+        | _ -> (
+
+        let next_literal = IntSet.choose (SetsSet.fold IntSet.union new_clauses IntSet.empty) in
+
+        let pos_clauses, neg_clauses = SetsSet.fold
+            (fun clause (pos_clauses, neg_clauses) ->
+               if IntSet.mem next_literal clause then
+                  pos_clauses, SetsSet.add (IntSet.remove next_literal clause) neg_clauses
+               else if IntSet.mem (-next_literal) clause then
+                  SetsSet.add (IntSet.remove (-next_literal) clause) pos_clauses, neg_clauses
+               else
+                  SetsSet.add clause pos_clauses, SetsSet.add clause neg_clauses
+            ) new_clauses (SetsSet.empty, SetsSet.empty) in
+
+        let pos_suitable_valuation, neg_suitable_valuation =
+          if next_literal >= 0 then
+            IntSet.add next_literal new_suitable_valuation, new_suitable_valuation
+          else
+            new_suitable_valuation, IntSet.add (-next_literal) new_suitable_valuation
+        in
+          let result = dpll_aux pos_clauses pos_suitable_valuation in
+            if fst result then
+              result
+            else
+              dpll_aux neg_clauses neg_suitable_valuation
+    )
+  )
+)
+
+let dpll clauses =
+  dpll_aux clauses IntSet.empty

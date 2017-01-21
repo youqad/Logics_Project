@@ -4,7 +4,7 @@ from random import choice
 from copy import deepcopy
 
 
-cdef class CNF:
+class CNF():
     """
     CNF formula :
         CNF(clause_1, clause_2, ...),
@@ -12,7 +12,6 @@ cdef class CNF:
             each literal being a integer :  > 0 if the polarity of the variable is positive
                                             < 0 otherwise
     """
-    cdef list clauses
     def __init__(self, *args):
         assert args
         self.clauses = [set()]
@@ -22,7 +21,7 @@ cdef class CNF:
                     if line[0] == 'c' or line[0] == 'p':
                         continue
                     line = map(int, line.split())
-
+                    
                     for var in line:
                         # Add variable numbers until 0 is reached
                         if isinstance(var, int) and var!=0:
@@ -32,7 +31,7 @@ cdef class CNF:
                             self.clauses.append(set())
                         else:
                             break
-
+                                                
             if not self.clauses[-1]:
                 del self.clauses[-1]
 
@@ -53,28 +52,17 @@ cdef class CNF:
     def __iter__(self):
         yield from self.clauses
 
-    cdef bint __evaluate_literals(self, bint x, int y):
-        global valuation
-        return x or (abs(y) in valuation if y >= 0 else not abs(y) in valuation)
+    def evaluate(self, valuation):
+        def evaluate_clause(c):
+            return reduce(lambda x, y: x or (abs(y) in valuation if y >= 0 else not abs(y) in valuation), c, False)
 
-    cdef bint __evaluate_clause(self, set c):
-        return reduce(self.__evaluate_literals, c, False)
-
-    cdef bint __and_evaluations(self, bint x, set y):
-        return x and self.__evaluate_clause(y)
-
-    cdef bint evaluate(self, set valuation):
-        return reduce(self.__and_evaluations, self.clauses, True)
+        return reduce(lambda x, y: x and evaluate_clause(y), self.clauses, True)
 
     def __len__(self):
-        cdef int i
         all_literals = reduce(set.union, self.clauses, set())
         return sum(1 for i in all_literals if i>=0)
 
-    cdef tuple naive_SAT(self):
-        cdef int n, N, int_valuation
-        cdef bytes binary_valuation
-        cdef set valuation
+    def naive_SAT(self):
         n = len(self)
         N = 2**n
 
@@ -87,42 +75,28 @@ cdef class CNF:
             return False, None
         return True, valuation
 
-    cpdef tuple DPLL(self):
-        cdef set suitable_valuation
-        cdef list clauses_copy
+    def DPLL(self):
         suitable_valuation = set()
         clauses_copy = deepcopy(self.clauses)
         return DPLL(clauses_copy, suitable_valuation)
 
-
-cdef int choose(list clauses):
+def choose(clauses):
     return choice(tuple(reduce(set.union, clauses, set())))
 
-cdef bint and_bool_clauses(bint x, set y):
-    return x and bool(y)
-
-cdef tuple base_cases(list clauses, set suitable_valuation):
-    if not clauses:
-        return True, suitable_valuation
-    elif not reduce(and_bool_clauses, clauses, True):
-        return False, None
-    else:
-        return ()
-
-cdef set union_unit_clauses(set x, set y):
-    return x.union(y) if len(y)==1 else x
-
-cdef tuple DPLL(list clauses, set suitable_valuation):
-    cdef tuple base_cases_result, result
-    cdef set unit_clauses, negation_unit_clauses, pure_literals, unit_or_pure, neg_unit_or_pure
-    cdef int i, index, l, next_literal
-    cdef list clauses2
+def DPLL(clauses, suitable_valuation=set()):
+    def base_cases(clauses, suitable_valuation):
+        if not clauses:
+            return True, suitable_valuation
+        elif not reduce(lambda x, y: x and bool(y), clauses, True):
+            return False, None
+        else:
+            return ()
 
     base_cases_result = base_cases(clauses, suitable_valuation)
-    if bool(base_cases_result):
+    if base_cases_result:
         return base_cases_result
 
-    unit_clauses = reduce(union_unit_clauses, clauses, set())
+    unit_clauses = reduce(lambda x, y: x.union(y) if len(y)==1 else x, clauses, set())
     negation_unit_clauses = set(-i for i in unit_clauses)
     pure_literals = reduce(set.intersection, clauses)
 
@@ -166,17 +140,13 @@ cdef tuple DPLL(list clauses, set suitable_valuation):
         return DPLL(clauses2, suitable_valuation.union((abs(next_literal),) if next_literal < 0 else ()))
 
 tests = []
-
 tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
 tests.append(CNF((1,),(-1,)))
 tests.append(CNF((1,-1), (2,)))
-# tests.append(CNF("../Examples/test.txt"))
-tests.append(CNF("../Examples/test2.txt"))
-# tests.append(CNF("../Examples/test3.txt"))
-# tests.append(CNF("../Examples/test4.txt"))
-tests.append(CNF("../Examples/test5.txt"))
-tests.append(CNF("../Examples/test6.txt"))
+tests.append(CNF("./test2.txt"))
+tests.append(CNF("./test6.txt"))
 
 
 for t in tests:
+    print(t)
     print(t.DPLL())
