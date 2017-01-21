@@ -1,3 +1,16 @@
+c FILE: dubois21.cnf
+c
+c SOURCE: Olivier Dubois (dubois@laforia.ibp.fr)
+c
+c DESCRIPTION: Instance from generator gensathard.c
+c
+c NOTE: Not satisfiable
+c
+c d = 21
+c n = 63
+c p = 168
+c r = 3
+p cnf 63 168
  41  42   1  0
 -41 -42   1  0
  41 -42  -1  0
