@@ -144,7 +144,7 @@ let rec dpll_aux clauses suitable_valuation =
 let dpll clauses =
   dpll_aux clauses IntSet.empty;;
 
-let file = "../Examples/test4.txt";;
+let file = "../Examples/test3.txt";;
 
 (* print_SetsSet (read_file file);; *)
 
