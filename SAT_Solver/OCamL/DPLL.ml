@@ -2,8 +2,6 @@ module IntSet = Set.Make(struct type t = int let compare = Pervasives.compare en
 
 module SetsSet = Set.Make(IntSet)
 
-let file = "../Examples/test.txt"
-
 let read_file filename =
 let clauses = ref SetsSet.empty in
 let current_IntSet = ref IntSet.empty in
@@ -35,8 +33,6 @@ let print_IntSet s = (
 let print_SetsSet s =
   SetsSet.iter (function set -> print_IntSet set; print_newline()) s;;
 
-
-print_SetsSet (read_file file);;
 
 let evaluate clauses valuation =
   let evaluate_clause c =
@@ -146,4 +142,13 @@ let rec dpll_aux clauses suitable_valuation =
 )
 
 let dpll clauses =
-  dpll_aux clauses IntSet.empty
+  dpll_aux clauses IntSet.empty;;
+
+let file = "../Examples/test3.txt";;
+
+(* print_SetsSet (read_file file);; *)
+
+let bool, resu = dpll (read_file file) in
+match resu with
+| None -> print_string (string_of_bool bool); print_newline(); print_string "None";
+| Some resu -> print_string (string_of_bool bool); print_newline(); print_IntSet resu;;
