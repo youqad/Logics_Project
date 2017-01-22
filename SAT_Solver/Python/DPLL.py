@@ -114,7 +114,7 @@ def DPLL(clauses, suitable_valuation=set()):
                 clause -= neg_unit_or_pure
         clauses = [s for s in clauses if s is not None]
 
-    suitable_valuation.update((abs(l) for l in unit_or_pure if l >= 0))
+    suitable_valuation.update((l for l in unit_or_pure if l >= 0))
 
     base_cases_result = base_cases(clauses, suitable_valuation)
     if base_cases_result:
