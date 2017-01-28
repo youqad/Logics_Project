@@ -25,9 +25,9 @@ with End_of_file ->
   !clauses ;;
 
 let print_IntSet s = (
-  print_string "{ ";
-  IntSet.iter (function i -> print_int i; print_string " || ") s;
-  print_string "} ";
+  (* print_string "{ "; *)
+  IntSet.iter (function i -> print_int i; print_string " ") s;
+  (* print_string "} "; *)
 )
 
 let print_SetsSet s =
@@ -144,7 +144,7 @@ let rec dpll_aux clauses suitable_valuation =
 let dpll clauses =
   dpll_aux clauses IntSet.empty;;
 
-let file = "../Examples/test3.txt";;
+let file = (Sys.argv).(1);;
 
 (* print_SetsSet (read_file file);; *)
 
