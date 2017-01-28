@@ -7,28 +7,33 @@ class LatinSquare():
     
     _created_files = False
     
-    def __init__(self, *args):
+    def __init__(self, *args, prefix = 'latin_square', identifiers =[]):
         assert args
         self.file_names = []
         self.outputs = []
         self.square_dimensions = args
         
-        for n in args:
-            file_name = 'latin_square_' + str(n) + '.txt'
+        for index, n in enumerate(args):
+            if identifiers:
+                file_name = prefix + '_' + str(n) + '_' + identifiers[index] + '.txt'
+            else:
+                file_name = prefix + '_' + str(n) + '.txt'
+                
             self.file_names.append(file_name)
             output_str = ''
-            d = {}
-            count = 1
+            
+            
+            # (k,i,j) is true iff the variable k is in position (i,j)
+            # (k,i,j) corresponds to the literal number k*(n**2) + i*n + j + 1
+            n_squared = n**2
             
             for k in range(n):
                 for i in range(n):
                     not_two_in_one_row = ''
                     for j in range(n):
-                        d[(k,i,j)] = count
-                        output_str += str(count) + ' '
-                        count +=1
+                        output_str += str(k*n_squared + i*n + j + 1) + ' '
                         for j2 in range(j):
-                            not_two_in_one_row += '-' + str(d[(k,i,j2)]) + ' -' + str(count) + ' 0\n'
+                            not_two_in_one_row += '-' + str(k*n_squared+i*n+j2+1) + ' -' + str(k*n_squared+i*n+j+1) + ' 0\n'
                     output_str += '0\n'
                     output_str += not_two_in_one_row
                     
@@ -36,16 +41,16 @@ class LatinSquare():
                 for j in range(n):
                     not_two_in_one_col = ''
                     for i in range(n):
-                        output_str += str(d[(k,i,j)]) + ' '
+                        output_str += str(k*n_squared+i*n+j+1) + ' '
                         for i2 in range(i):
-                            not_two_in_one_col += '-' + str(d[(k,i2,j)]) + ' -' + str(d[(k,i,j)]) + ' 0\n'
+                            not_two_in_one_col += '-' + str(k*n_squared+i2*n+j+1) + ' -' + str(k*n_squared+i*n+j+1) + ' 0\n'
                     output_str += '0\n'
                     output_str += not_two_in_one_col
     
             for i in range(n):
                 for j in range(n):
                     for k in range(n):
-                        output_str += str(d[(k,i,j)]) + ' '
+                        output_str += str(k*n_squared+i*n+j+1) + ' '
                     output_str += '0\n'
                     
             self.outputs.append(output_str)
@@ -58,11 +63,11 @@ class LatinSquare():
     def create_files(self):
         for n, file_name, output in zip(self.square_dimensions, self.file_names, self.outputs):
             with open(file_name, 'w') as f:
-                f.write('c Latin Square CNF file python generated.\n')
+                f.write('c '+ file_name + ' : Latin Square CNF file python generated.\n')
                 f.write(output)
         self._created_files = True
     
-    def show(self, ):
+    def show(self, subgrids_size = 0):
         
         if not self._created_files:
             self.create_files()
@@ -94,10 +99,13 @@ class LatinSquare():
                     for (k,i,j) in valuation:
                         grid[i,j] = k+1
                         ax.text(j,i,str(k+1),ha='center',va='center')
-                                            
+                    
+                    if subgrids_size:
+                        ax.xaxis.set_ticks([-0.5+i*subgrids_size for i in range(n)])
+                        ax.yaxis.set_ticks([-0.5+i*subgrids_size for i in range(n)])
+                        ax.grid(True)
+                        
                     ax.imshow(grid, interpolation ='none', aspect = 'auto', cmap='Set3')
         
         plt.show()
-
-L = LatinSquare(5, 4)
-L.show()
+        
