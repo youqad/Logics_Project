@@ -25,3 +25,6 @@ setup.log
 
 # VSCode
 .vscode/
+
+# PyCharm
+.idea/
