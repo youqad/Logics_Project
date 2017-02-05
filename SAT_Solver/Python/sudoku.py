@@ -4,7 +4,7 @@ from math import sqrt
 import numpy as np
 
 class Sudoku(LatinSquare):
-    def __init__(self, *args, subgrids_size=3):
+    def __init__(self, *args, subgrids_size=3, examples_folder='../Examples/', color_map = ''):
         assert args
         self.subgrids_size = subgrids_size
         square_dimensions = []
@@ -41,7 +41,7 @@ class Sudoku(LatinSquare):
             identifiers.append(identifier)
             
             
-        LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers)
+        LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers, examples_folder=examples_folder, color_map=color_map)
         
         for index,n,grid in zip(range(len(self.outputs)), square_dimensions, reshaped_grids):
             number_subgrids = n//subgrids_size
@@ -70,9 +70,27 @@ class Sudoku(LatinSquare):
         LatinSquare.show(self, subgrids_size= self.subgrids_size)
                                             
             
-        
     
+    # Normal << Very Difficult < Evil < Excessive < Egregious < Excruciating < Extreme
+    # http://www.extremesudoku.info/sudoku.html Monday, 30th January 2017
+    
+    # Normal :  ('700020005','600710000','000005907','030080740','006000100','049060020','903100000','000053001','500090002')
+    # ('645000000','000240600','008001007','002005009','000000000','010300200','380970021','720050000','000000080')
+    # Very Difficult : ('620900800','008200090','070608300','000002405','000000000','305400000','009307040','040009100','007004062')
+    #                  ('000380050','200460900','05300006','030000800','608000203','001000090','300000520','002043007','070021000')
+    # Evil : ('700000003','020903060','003010200','050601090','009000100','030409050','008030600','060208040','200000009')
+    # Excessive: ('500200106','001009000', '020010009', '100300070','004000200', '060005003','400050010','000700300','308001004')
+    # Egregious : ('906010500','080090070','005006001','000400100','690080035','001002000','200300800','030020040','009040302')
+    # Excruciating : ('400090003','000304000','007080400','070000090','601050807','090000060','002070300','000506000', '800010002')
+    # Extreme : ('800050007', '000302000','004090300', '020000090', '705080401', '010000060', '003070600', '000409000', '100060005')
+    
+    # Easy : ('020390506','607100400','509672000','900000210','000000000','052000004','000836107','005009602','806025040')
+    # '306720589080500000009000002503002046700903005860400901400000300000004010928017604'
+    # Medium : '091300050080054100000060090010006003006000800500400060040070000009130020060008710'
     
 
-L = Sudoku(('3040','0000','0000','0201'), ('0203','0100','0024','0000'), subgrids_size=2)
-L.show()
+# L = Sudoku(('700020005','600710000','000005907','030080740','006000100','049060020','903100000','000053001','500090002'), ('620900800','008200090','070608300','000002405','000000000','305400000','009307040','040009100','007004062'), subgrids_size=3)
+# L.show()
+
+
+L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3).show()

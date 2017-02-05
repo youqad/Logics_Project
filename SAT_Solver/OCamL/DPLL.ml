@@ -139,7 +139,7 @@ let rec dpll_aux clauses suitable_valuation =
               dpll_aux neg_clauses neg_suitable_valuation
     )
   )
-)
+        )
 
 let dpll clauses =
   dpll_aux clauses IntSet.empty;;

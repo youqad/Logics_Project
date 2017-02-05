@@ -22,3 +22,6 @@ setup.log
 # Cython files
 *.c
 *.so
+
+# VSCode
+.vscode/

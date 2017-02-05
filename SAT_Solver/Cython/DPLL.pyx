@@ -2,6 +2,7 @@ from functools import reduce
 from itertools import takewhile
 from random import choice
 from copy import deepcopy
+from sys import argv
 
 
 cdef class CNF:
@@ -51,7 +52,8 @@ cdef class CNF:
         return self.clauses != 0
 
     def __iter__(self):
-        yield from self.clauses
+        for c in self.clauses:
+            yield c
 
     cdef bint __evaluate_literals(self, bint x, int y):
         global valuation
@@ -165,18 +167,16 @@ cdef tuple DPLL(list clauses, set suitable_valuation):
     else:
         return DPLL(clauses2, suitable_valuation.union((abs(next_literal),) if next_literal < 0 else ()))
 
-tests = []
+# tests = []
+# tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
+# tests.append(CNF((1,),(-1,)))
+# tests.append(CNF((1,-1), (2,)))
+# tests.append(CNF("./test2.txt"))
+# tests.append(CNF("./test6.txt"))
+#
+#
+# for t in tests:
+#     print(t)
+#     print(t.DPLL())
 
-tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
-tests.append(CNF((1,),(-1,)))
-tests.append(CNF((1,-1), (2,)))
-# tests.append(CNF("../Examples/test.txt"))
-tests.append(CNF("../Examples/test2.txt"))
-# tests.append(CNF("../Examples/test3.txt"))
-# tests.append(CNF("../Examples/test4.txt"))
-tests.append(CNF("../Examples/test5.txt"))
-tests.append(CNF("../Examples/test6.txt"))
-
-
-for t in tests:
-    print(t.DPLL())
+print(CNF(argv[1]).DPLL())

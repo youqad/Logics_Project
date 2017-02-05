@@ -2,6 +2,7 @@ from functools import reduce
 from itertools import takewhile
 from random import choice
 from copy import deepcopy
+import sys
 
 
 class CNF():
@@ -21,7 +22,7 @@ class CNF():
                     if line[0] == 'c' or line[0] == 'p':
                         continue
                     line = map(int, line.split())
-                    
+
                     for var in line:
                         # Add variable numbers until 0 is reached
                         if isinstance(var, int) and var!=0:
@@ -31,7 +32,7 @@ class CNF():
                             self.clauses.append(set())
                         else:
                             break
-                                                
+
             if not self.clauses[-1]:
                 del self.clauses[-1]
 
@@ -50,7 +51,8 @@ class CNF():
         return self.clauses != 0
 
     def __iter__(self):
-        yield from self.clauses
+        for c in self.clauses:
+            yield c
 
     def evaluate(self, valuation):
         def evaluate_clause(c):
@@ -139,14 +141,16 @@ def DPLL(clauses, suitable_valuation=set()):
     else:
         return DPLL(clauses2, suitable_valuation.union((abs(next_literal),) if next_literal < 0 else ()))
 
-tests = []
-tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
-tests.append(CNF((1,),(-1,)))
-tests.append(CNF((1,-1), (2,)))
-tests.append(CNF("./test2.txt"))
-tests.append(CNF("./test6.txt"))
+# tests = []
+# tests.append(CNF((1,-2,-3),(-1,2,-3), (3,)))
+# tests.append(CNF((1,),(-1,)))
+# tests.append(CNF((1,-1), (2,)))
+# tests.append(CNF("./test2.txt"))
+# tests.append(CNF("./test6.txt"))
+#
+#
+# for t in tests:
+#     print(t)
+#     print(t.DPLL())
 
-
-for t in tests:
-    print(t)
-    print(t.DPLL())
+print(CNF(sys.argv[1]).DPLL())

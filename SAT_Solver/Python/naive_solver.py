@@ -32,7 +32,7 @@ class Boolexpr():
         else:
             yield self.operator
             for arg in self.arguments:
-                yield from iter(arg)        
+                yield next(arg)
     
     def evaluate(self, valuation):
         
