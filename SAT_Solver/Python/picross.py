@@ -63,4 +63,3 @@ class LatinSquare(Grid):
             ax.grid(True)
 
         return grid
-

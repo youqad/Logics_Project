@@ -82,8 +82,11 @@ class CNF():
         clauses_copy = deepcopy(self.clauses)
         return DPLL(clauses_copy, suitable_valuation)
 
-def choose(clauses):
-    return choice(tuple(reduce(set.union, clauses, set())))
+def choose(clauses, choice = 'default'):
+    if choice == 'random':
+        return choice(tuple(reduce(set.union, clauses, set())))
+    else:
+        return next(iter(clauses[0]))
 
 def DPLL(clauses, suitable_valuation=set()):
     def base_cases(clauses, suitable_valuation):

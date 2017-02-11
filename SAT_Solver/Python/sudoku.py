@@ -4,13 +4,17 @@ from math import sqrt
 import numpy as np
 
 class Sudoku(LatinSquare):
-    def __init__(self, *args, subgrids_size=3, examples_folder='../Examples/', color_map = ''):
+    def __init__(self, *args, subgrids_size=3, examples_folder='../Examples/', color_map = '', random=None, grid_size=9):
         assert args
         self.subgrids_size = subgrids_size
+        self.grid_size = grid_size
         square_dimensions = []
         reshaped_grids = []
         identifiers = []
-        
+
+        if random:
+            self.random(random)
+
         for grid in args:
             reshaped_grid = []
             identifier = ''
@@ -65,9 +69,15 @@ class Sudoku(LatinSquare):
                 for j in range(n):
                     if 1 <= grid[i,j] <= n:
                         self.outputs[index] += str((grid[i,j]-1)*n_squared+i*n+j+1) + ' 0\n'
-            
-    def show(self):
-        LatinSquare.show(self, subgrids_size= self.subgrids_size)
+
+# TODO : implement random
+    def random(self, param):
+        if isinstance(param, dict):
+            for (i, j), k in param.items():
+                pass
+
+
+
                                             
             
     

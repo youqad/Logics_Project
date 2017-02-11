@@ -97,8 +97,11 @@ cdef class CNF:
         return DPLL(clauses_copy, suitable_valuation)
 
 
-cdef int choose(list clauses):
-    return choice(tuple(reduce(set.union, clauses, set())))
+cdef int choose(list clauses, str choice = 'default'):
+    if choice == 'random':
+        return choice(tuple(reduce(set.union, clauses, set())))
+    else:
+        return next(iter(clauses[0]))
 
 cdef bint and_bool_clauses(bint x, set y):
     return x and bool(y)
