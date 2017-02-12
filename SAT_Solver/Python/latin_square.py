@@ -4,11 +4,12 @@ import numpy as np
 
 class LatinSquare(Grid):
 
-    def __init__(self, *args, prefix = 'latin_square', identifiers =[], examples_folder='../Examples/', color_map = ''):
-        Grid.__init__(self, *args, prefix='latin_square', identifiers=[], examples_folder='../Examples/', color_map='')
+    def __init__(self, *args, prefix = 'latin_square', identifiers =[], original_grids = [], examples_folder='../Examples/',
+                 color_map = ''):
+        Grid.__init__(self, *args, prefix = prefix, identifiers = identifiers,  original_grids =  original_grids,
+                      examples_folder = examples_folder, color_map = color_map)
 
-    @staticmethod
-    def generate_file(n):
+    def generate_file(self, n, original_grid=None):
         # (k,i,j) is true iff the variable k is in position (i,j)
         # (k,i,j) corresponds to the literal number k*(n**2) + i*n + j + 1
         n_squared = n ** 2
@@ -45,7 +46,7 @@ class LatinSquare(Grid):
         return output_str
 
 
-    def generate_grid(self, n, valuation, ax):
+    def generate_grid(self, n, valuation, ax, original_grid = None):
         # valuation = output[7:-2].split(' || ')[:-1]
         # color_list = plt.cm.Set3(np.linspace(0, 1, n))
         # grid = np.zeros((n,n),dtype='f,f,f,f')
@@ -55,12 +56,17 @@ class LatinSquare(Grid):
 
         for (k, i, j) in valuation:
             grid[i, j] = k + 1
-            ax.text(j, i, str(k + 1), ha='center', va='center', weight='heavy', backgroundcolor=(1, 1, 1, 0.1))
+            if original_grid is not None and 1 <= original_grid[i,j] <= n:
+                ax.text(j, i, str(k + 1), ha='center', va='center', weight='extra bold', backgroundcolor=(1, 1, 1, 0.1))
+            else:
+                ax.text(j, i, str(k + 1), ha='center', va='center', style='italic', backgroundcolor=(1, 1, 1, 0.1))
 
-        if self.subgrids_size:
+        try:
             ax.xaxis.set_ticks([-0.5 + i * self.subgrids_size for i in range(n)])
             ax.yaxis.set_ticks([-0.5 + i * self.subgrids_size for i in range(n)])
             ax.grid(True)
+        except AttributeError:
+            pass
 
         return grid
 

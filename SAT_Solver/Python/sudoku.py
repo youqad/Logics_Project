@@ -45,30 +45,35 @@ class Sudoku(LatinSquare):
             identifiers.append(identifier)
             
             
-        LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers, examples_folder=examples_folder, color_map=color_map)
-        
-        for index,n,grid in zip(range(len(self.outputs)), square_dimensions, reshaped_grids):
-            number_subgrids = n//subgrids_size
-            n_squared = n**2
-            
-            for k in range(n):
-                kn_squared = k*n_squared
-                for i in range(number_subgrids):
-                    for j in range(number_subgrids):                            
-                        for di in range(subgrids_size):
-                            for dj in range(subgrids_size):
-                                current_literal = kn_squared+(subgrids_size*i+di)*n+(subgrids_size*j+dj)+1
-                                for di2 in range(di):
-                                    for dj2 in range(subgrids_size):
-                                        self.outputs[index] += '-' + str(current_literal) + ' -' + \
-                                        str(kn_squared+(subgrids_size*i+di2)*n+(subgrids_size*j+dj2)+1) + ' 0\n'
-                                for dj2 in range(dj):
-                                    self.outputs[index] += '-' + str(current_literal) + ' -' + \
-                                    str(kn_squared+(subgrids_size*i+di)*n+(subgrids_size*j+dj2)+1) + ' 0\n'
-            for i in range(n):
-                for j in range(n):
-                    if 1 <= grid[i,j] <= n:
-                        self.outputs[index] += str((grid[i,j]-1)*n_squared+i*n+j+1) + ' 0\n'
+        LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers, original_grids = reshaped_grids,
+                             examples_folder=examples_folder, color_map=color_map)
+
+    def generate_file(self, n, original_grid=None):
+        output_str = LatinSquare.generate_file(self, n, original_grid)
+        subgrids_size = self.subgrids_size
+        number_subgrids = n//subgrids_size
+        n_squared = n**2
+
+        for k in range(n):
+            kn_squared = k*n_squared
+            for i in range(number_subgrids):
+                for j in range(number_subgrids):
+                    for di in range(subgrids_size):
+                        for dj in range(subgrids_size):
+                            current_literal = kn_squared+(subgrids_size*i+di)*n+(subgrids_size*j+dj)+1
+                            for di2 in range(di):
+                                for dj2 in range(subgrids_size):
+                                    output_str += '-' + str(current_literal) + ' -' + \
+                                    str(kn_squared+(subgrids_size*i+di2)*n+(subgrids_size*j+dj2)+1) + ' 0\n'
+                            for dj2 in range(dj):
+                                output_str += '-' + str(current_literal) + ' -' + \
+                                str(kn_squared+(subgrids_size*i+di)*n+(subgrids_size*j+dj2)+1) + ' 0\n'
+        for i in range(n):
+            for j in range(n):
+                if 1 <= original_grid[i,j] <= n:
+                    output_str += str((original_grid[i,j]-1)*n_squared+i*n+j+1) + ' 0\n'
+
+        return output_str
 
 # TODO : implement random
     def random(self, param):

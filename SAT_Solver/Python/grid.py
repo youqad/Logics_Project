@@ -25,7 +25,7 @@ class Grid():
          'seismi' 'c', 'seismic_r', 'spectral', 'spectral_r', 'spring', 'spring_r', 'summer', 'summer_r', 'terrain',
          'terrain_r', 'viridis', 'viridis_r', 'winter', 'winter_r'])
 
-    def __init__(self, *args, prefix= 'game', identifiers=[], examples_folder='../Examples/', color_map=''):
+    def __init__(self, *args, prefix= 'game', identifiers=[],  original_grids = [], examples_folder='../Examples/', color_map=''):
         assert args
         self.color_map = color_map
         self.examples_folder = examples_folder
@@ -33,16 +33,18 @@ class Grid():
         self.outputs = []
         self.square_dimensions = args
         self.prefix = prefix
+        self.original_grids = original_grids
 
-        for index, n in enumerate(args):
+        for index,n,grid in zip(range(len(args)), args, original_grids):
+            file_name = self.prefix + '_' + str(n).replace('(', '').replace(')', '').replace(', ', '_')
             if identifiers:
-                file_name = self.prefix + '_' + str(n) + '_' + identifiers[index] + '.txt'
+                file_name+= '_' + identifiers[index] + '.txt'
             else:
-                file_name = self.prefix + '_' + str(n) + '.txt'
+                file_name+= '.txt'
 
             self.file_names.append(file_name)
 
-            output_str = self.generate_file(n)
+            output_str = self.generate_file(n, original_grid = grid)
 
             self.outputs.append(output_str)
 
@@ -85,16 +87,15 @@ class Grid():
                 valuation = [(((int(l) - 1) // (n ** 2)) % n, ((int(l) - 1) // n) % n, (int(l) - 1) % n) for l in
                              valuation]
 
-                grid = self.generate_grid(n, valuation, ax)
+                grid = self.generate_grid(n, valuation, ax, original_grid = None if not self.original_grids else self.original_grids[index])
 
-                ax.imshow(grid, interpolation='none', aspect='auto', cmap=current_color_map)
+                ax.imshow(grid, interpolation='nearest', aspect='auto', cmap=current_color_map)
         plt.show()
 
-    def generate_grid(self, n, valuation, ax):
+    def generate_grid(self, dimensions, valuation, ax, original_grid = None):
         raise NotImplementedError
 
-    @staticmethod
-    def generate_file(n):
+    def generate_file(self, dimensions, original_grid=None):
         raise NotImplementedError
 
 

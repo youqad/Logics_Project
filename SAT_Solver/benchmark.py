@@ -77,9 +77,9 @@ def benchmark(path='./Examples/'):
     
     ax3.set_xticks([i + width/2. for i in x])
     ax3.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles])
-    ax3.legend(loc='upper left') 
+    ax3.legend(loc='upper left')
 
-    
+    plt.tight_layout()
     plt.savefig('benchmarks.png')
     plt.show()
 

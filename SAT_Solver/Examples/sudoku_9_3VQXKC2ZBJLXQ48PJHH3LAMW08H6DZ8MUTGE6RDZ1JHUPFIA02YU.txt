@@ -1,4 +1,4 @@
-c sudoku_9_3VQXKC2ZBJLXQ48PJHH3LAMW08H6DZ8MUTGE6RDZ1JHUPFIA02YU.txt : Latin Square CNF file python generated.
+c sudoku_9_3VQXKC2ZBJLXQ48PJHH3LAMW08H6DZ8MUTGE6RDZ1JHUPFIA02YU.txt : Sudoku CNF file python generated.
 1 2 3 4 5 6 7 8 9 0
 -1 -2 0
 -1 -3 0
