@@ -1,5 +1,6 @@
 from grid import Grid
 import numpy as np
+from urllib.request import urlopen
 
 
 class Picross(Grid):
@@ -7,18 +8,43 @@ class Picross(Grid):
         assert args
         dimensions = []
         identifiers, new_identifiers = ([], True) if not identifiers else (identifiers, False)
+        grids = []
 
         for grid in args:
+            if isinstance(grid, str):
+                new_grid = []
+                with urlopen(grid) as f:
+                    # n : number of rows
+                    # m : number of columns
+                    n, m = int(next(f)), int(next(f))
+                    dimensions.append((n, m))
+                    rows_or_columns = []
+                    for line in f:
+                        if not line.strip():
+                            new_grid.append(rows_or_columns)
+                            rows_or_columns = []
+                            continue
+                        block = list(map(int, line.split()))
+                        rows_or_columns.append(block)
+                    else:
+                        new_grid.append(rows_or_columns)
+                grids.append(new_grid)
+                formatted_grid = new_grid
+            else:
+                # n : number of rows
+                # m : number of columns
+                n, m = len(grid[0]), len(grid[1])
+                dimensions.append((n, m))
+                grids.append(grid)
+                formatted_grid = grid
 
             if new_identifiers:
-                identifier = ''.join(str(number) for row_col in grid for numbers in row_col for number in numbers)
+                identifier = ''.join(str(number) for row_col in formatted_grid for numbers in row_col for number in numbers)
                 identifier = np.base_repr(int(identifier), 36)
+                identifier = identifier[:100]
                 identifiers.append(identifier)
 
-            x, y = len(grid[0]), len(grid[1])
-            dimensions.append((x, y))
-
-        Grid.__init__(self, *dimensions, prefix=prefix, identifiers=identifiers, original_grids=args, examples_folder=examples_folder, color_map=color_map)
+        Grid.__init__(self, *dimensions, prefix=prefix, identifiers=identifiers, original_grids=grids, examples_folder=examples_folder, color_map=color_map)
 
 
     def generate_file(self, dimensions, original_grid=None, verbose = True):
@@ -170,10 +196,10 @@ class Picross(Grid):
 
 # P = Picross([[[3], [2,1], [3,2], [2,2], [6], [1,5], [6], [1], [2]], [[1,2], [3,1], [1,5], [7,1], [5], [3], [4], [3]]])
 # P = Picross([[[6], [3, 1, 3], [1, 3, 1, 3], [3, 14], [1, 1, 1], [1, 1, 2, 2], [5, 2, 2], [5, 1, 1], [5, 3, 3, 3], [8, 3, 3, 3]], [[4], [4], [1, 5], [3, 4], [1, 5], [1], [4, 1], [2, 2, 2], [3, 3], [1, 1, 2], [2, 1, 1], [1, 1, 2], [4, 1], [1, 1, 2], [1, 1, 1], [2, 1, 2], [1, 1, 1], [3, 4], [2, 2, 1], [4, 1]]])
-P = Picross([[[5], [2, 3, 2], [2, 5, 1], [2, 8], [2, 5, 11], [1, 1, 2, 1, 6], [1, 2, 1, 3], [2, 1, 1], [2, 6, 2], [15, 4], [10, 8], [2, 1, 4, 3, 6], [17], [17], [18], [1, 14], [1, 1, 14], [5, 9], [8], [7]],
-             [[5], [3, 2], [2, 1, 2], [1, 1, 1], [1, 1, 1], [1, 3], [2, 2], [1, 3, 3], [1, 3, 3, 1], [1, 7, 2],
-              [1, 9, 1], [1, 10], [1, 10], [1, 3, 5], [1, 8], [2, 1, 6], [3, 1, 7], [4, 1, 7], [6, 1, 8], [6, 10],
-              [7, 10], [1, 4, 11], [1, 2, 11], [2, 12], [3, 13]]])
+# P = Picross([[[5], [2, 3, 2], [2, 5, 1], [2, 8], [2, 5, 11], [1, 1, 2, 1, 6], [1, 2, 1, 3], [2, 1, 1], [2, 6, 2], [15, 4], [10, 8], [2, 1, 4, 3, 6], [17], [17], [18], [1, 14], [1, 1, 14], [5, 9], [8], [7]],
+#              [[5], [3, 2], [2, 1, 2], [1, 1, 1], [1, 1, 1], [1, 3], [2, 2], [1, 3, 3], [1, 3, 3, 1], [1, 7, 2],
+#               [1, 9, 1], [1, 10], [1, 10], [1, 3, 5], [1, 8], [2, 1, 6], [3, 1, 7], [4, 1, 7], [6, 1, 8], [6, 10],
+#               [7, 10], [1, 4, 11], [1, 2, 11], [2, 12], [3, 13]]])
 
 # P = Picross([[[1],[1,3],[3],[1,1],[1,1]], [[1],[3],[2],[5],[1]]])
 
@@ -181,6 +207,25 @@ P = Picross([[[5], [2, 3, 2], [2, 5, 1], [2, 8], [2, 5, 11], [1, 1, 2, 1, 6], [1
 
 # P = Picross([[[3],[5],[4,3],[7],[5],[3],[5],[1,8],[3,3,3],[7,3,2],[5,4,2],[8,2],[10],[2,3],[6]],
 # [[3],[4],[5],[4],[5],[6],[3,2,1],[2,2,5],[4,2,6],[8,2,3],[8,2,1,1],[2,6,2,1],[4,6],[2,4],[1]]])
+
+# P = Picross("http://www.fil.univ-lille1.fr/~hym/e/aac/sat/warship.cwd")
+# P = Picross("https://gist.githubusercontent.com/youqad/214e7df3f40dde0cfd467eb12a6d07c8/raw/124866402f84747ea5279c9fc95761778ddc484b/gistfile1.txt")
+# P = Picross("https://gist.githubusercontent.com/youqad/1ac91abe875821461aa6e00673a19df9/raw/e703483bdd75563ce33c22b6b17fca35f5b844bf/gistfile1.txt")
+
+# P = Picross("https://gist.githubusercontent.com/youqad/7f2bb172630a1cfff10f687e7e5ac7a3/raw/4cb2053dc1c2529a6a3df5178c8348abec1c97a8/gistfile1.txt")
+# P =Picross("https://gist.githubusercontent.com/youqad/58a6fece57c5e15230145c1736255d5b/raw/ae46b1a40be232cf005c4d526cb2ae2291eb9ab1/gistfile1.txt")
+# P = Picross("https://gist.githubusercontent.com/youqad/4f198642c89747703b7b63fd0905810d/raw/1892b9d8fd3b4ca7563e38db880a84caed8b1d31/gistfile1.txt")
+# P = Picross("https://gist.githubusercontent.com/youqad/323eb0a573119d095fff60bce6fc9a38/raw/0d3308b2e7cd7560213f4014ee0244b0221a0152/gistfile1.txt")
+# P = Picross("https://gist.githubusercontent.com/youqad/679798a979b25c96b467ba6da972a861/raw/1ed4abd272e2a7104ad10304cddf7abe6169a28d/gistfile1.txt")
+# P = Picross("https://gist.githubusercontent.com/youqad/835a0943bbfef6a77b4c2fed3b1785f9/raw/413676fff3780666ef9eef846406bab528dce120/gistfile1.txt")
+
+P = Picross("https://gist.githubusercontent.com/youqad/8d4d0a5da468243aae08a333c412f95c/raw/26ab2cbb906b0fbe0bfdc09dfdef8b43d0106857/gistfile1.txt")
+
+# P = Picross("https://gist.githubusercontent.com/youqad/a94a6c5393e9570bcf105d609d28e635/raw/2683e7347b9d2bf633db632baa0f040945d87110/gistfile1.txt")
+
+# P = Picross("https://gist.githubusercontent.com/youqad/e823bcd8d239a23833b20da9b5d0bbaf/raw/d60310e98c885fc6befa78ec40e4750bc3a485b4/gistfile1.txt")
+
+# P = Picross("https://gist.githubusercontent.com/youqad/74f271fae6aa78d1646b6b02e60c6369/raw/3dec0764fd4d3c1b87882021d295b3924a2784ed/gistfile1.txt")
 
 print(P.original_grids)
 print(P.file_names)
