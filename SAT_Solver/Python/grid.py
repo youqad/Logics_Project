@@ -84,8 +84,7 @@ class Grid():
                     current_color_map = sample(self._color_maps, 1)[0]
 
                 valuation = output[5:].split()
-                valuation = [(((int(l) - 1) // (n ** 2)) % n, ((int(l) - 1) // n) % n, (int(l) - 1) % n) for l in
-                             valuation]
+                valuation = [self.decode_literals(n, l) for l in valuation if self.decode_literals(n, l) is not None]
 
                 grid = self.generate_grid(n, valuation, ax, original_grid = None if not self.original_grids else self.original_grids[index])
 
@@ -95,7 +94,10 @@ class Grid():
     def generate_grid(self, dimensions, valuation, ax, original_grid = None):
         raise NotImplementedError
 
-    def generate_file(self, dimensions, original_grid=None):
+    def generate_file(self, dimensions, original_grid=None, verbose=False):
         raise NotImplementedError
 
+    @staticmethod
+    def decode_literals(dimensions, l):
+        raise NotImplementedError
 

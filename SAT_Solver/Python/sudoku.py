@@ -48,7 +48,7 @@ class Sudoku(LatinSquare):
         LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers, original_grids = reshaped_grids,
                              examples_folder=examples_folder, color_map=color_map)
 
-    def generate_file(self, n, original_grid=None):
+    def generate_file(self, n, original_grid=None, verbose = False):
         output_str = LatinSquare.generate_file(self, n, original_grid)
         subgrids_size = self.subgrids_size
         number_subgrids = n//subgrids_size

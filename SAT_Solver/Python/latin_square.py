@@ -9,7 +9,7 @@ class LatinSquare(Grid):
         Grid.__init__(self, *args, prefix = prefix, identifiers = identifiers,  original_grids =  original_grids,
                       examples_folder = examples_folder, color_map = color_map)
 
-    def generate_file(self, n, original_grid=None):
+    def generate_file(self, n, original_grid=None, verbose = False):
         # (k,i,j) is true iff the variable k is in position (i,j)
         # (k,i,j) corresponds to the literal number k*(n**2) + i*n + j + 1
         n_squared = n ** 2
@@ -69,4 +69,8 @@ class LatinSquare(Grid):
             pass
 
         return grid
+
+    @staticmethod
+    def decode_literals(n, l):
+        return (((int(l) - 1) // (n ** 2)) % n, ((int(l) - 1) // n) % n, (int(l) - 1) % n)
 
