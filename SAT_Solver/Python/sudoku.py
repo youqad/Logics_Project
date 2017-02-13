@@ -2,18 +2,18 @@ from latin_square import LatinSquare
 from itertools import chain
 from math import sqrt
 import numpy as np
+from random import sample
 
 class Sudoku(LatinSquare):
-    def __init__(self, *args, subgrids_size=3, examples_folder='../Examples/', color_map = '', random=None, grid_size=9):
+    def __init__(self, *args, subgrids_size=3, examples_folder='../Examples/', color_map = '', random=None, solvable=True):
         assert args
         self.subgrids_size = subgrids_size
-        self.grid_size = grid_size
         square_dimensions = []
         reshaped_grids = []
         identifiers = []
 
         if random:
-            self.random(random)
+            args = (grid for grid in self.random(*args, param=random, solvable=solvable))
 
         for grid in args:
             reshaped_grid = []
@@ -44,7 +44,8 @@ class Sudoku(LatinSquare):
             identifier = np.base_repr(int(identifier),36)
             identifiers.append(identifier)
             
-            
+        print(reshaped_grids)
+        print(square_dimensions)
         LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers, original_grids = reshaped_grids,
                              examples_folder=examples_folder, color_map=color_map)
 
@@ -75,15 +76,53 @@ class Sudoku(LatinSquare):
 
         return output_str
 
-# TODO : implement random
-    def random(self, param):
-        if isinstance(param, dict):
-            for (i, j), k in param.items():
-                pass
+    def random(self, *args, param=27, solvable=True):
+        if isinstance(param, int):
+            for n in args:
+                yield self.random_sudoku(n, param, solvable)
+
+    @staticmethod
+    def random_sudoku(n, number_of_fixed_coeff, solvable = True):
+        """Return a randomly filled n x n Sudoku grid."""
+        grid = [[None for i in range(n)] for j in range(n)]
+        m = sqrt(n)
+        assert int(m) == m
+        m = int(m)
+
+        not_erased_coefficients = set(sample([(i,j) for i in range(n) for j in range(n)], number_of_fixed_coeff))
+
+        def grid_filled_up_to(i = 0, j =0):
+            i_current_block_origin, j_current_block_origin = m*(i//m), m*(j//m)
+            random_numbers  = sample(list(range(1, n + 1)), n)
+            if solvable or (i,j) in not_erased_coefficients:
+                for k in random_numbers:
+                    if k not in grid[i] and k not in [row[j] for row in grid] \
+                            and k not in [row_block for row in grid[i_current_block_origin:i]
+                                          for row_block in row[j_current_block_origin:j_current_block_origin+m]]:
+                        grid[i][j] = k
+                        if (i, j) == (n-1, n-1):
+                            return grid
+                        next_position = (i, j + 1) if j <= n - 2 else (i + 1, 0)
+                        if grid_filled_up_to(*next_position) is not None:
+                            return grid
+                # No number can be put in this position : let's backtrack
+                grid[i][j] = None
+                return None
+            else:
+                grid[i][j] = 0
+                if (i, j) == (n-1, n-1):
+                    return grid
+                next_position = (i, j + 1) if j <= n - 2 else (i + 1, 0)
+                if grid_filled_up_to(*next_position) is not None:
+                    return grid
+                grid[i][j] = None
+                return None
+
+        grid = grid_filled_up_to()
+        return ''.join((str(grid[i][j]) if (i,j) in not_erased_coefficients else '0') for i in range(n) for j in range(n))
 
 
 
-                                            
             
     
     # Normal << Very Difficult < Evil < Excessive < Egregious < Excruciating < Extreme
@@ -108,4 +147,10 @@ class Sudoku(LatinSquare):
 # L.show()
 
 
-L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3).show()
+# L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3)
+#
+# L.show()
+
+M = Sudoku(9, random=40, solvable=False)
+
+M.show()
