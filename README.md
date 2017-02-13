@@ -19,7 +19,7 @@ tags:
     - L3
     - Thiré
 abstract: 'Logic Project : 1st part.'
-permalink: /Programmation/Logic-Project
+permalink:/Programmation/Logic-Project/
 ---
 
 # Naive and DPLL algorithms
