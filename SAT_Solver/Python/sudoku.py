@@ -88,7 +88,7 @@ class Sudoku(LatinSquare):
     @staticmethod
     def random_sudoku(n, number_of_fixed_coeff, solvable = True):
         """
-        Return a randomly filled n*n Sudoku grid.
+        Return a randomly partially filled n*n Sudoku grid.
         The "solvable" option ensures there exists a solution, since a completeley filled Sudoku grid is generated
         before erasing n*n-number_of_fixed_coeff numbers.
         """

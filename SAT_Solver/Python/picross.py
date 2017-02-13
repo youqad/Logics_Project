@@ -72,7 +72,7 @@ class Picross(Grid):
 
     def generate_file(self, dimensions, original_grid=None, verbose = True):
         # n : rows / m : columns
-        # Cells  : (i,j) is true iff the cell in position (i,j) is black
+        # Cells  : (i,j) is true iff the cell in position (i,j) is colored
         #                -> associated with the literal 1 <= i*max(n,m) + j <= max(n,m)**2
         # Blocks : (k,i,j) is true iff the i-th block of the k-th sequence (= row OR column) starts from the j-th position
         #                 -> associated with the literal max(n,m)**2+1 <= max(n,m)**2 + k*(m+n)**2 + i*(m+n) + j + 1 <= (m+n)**3 + max(n,m)**2 + 1
