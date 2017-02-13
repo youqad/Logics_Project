@@ -40,7 +40,7 @@ def benchmark(path='./Examples/'):
     rects3 = ax.bar([i+w+dw for i in x], c,width=w,color=color_Python,align='center')
     
     ax.legend( (rects1[0], rects2[0],rects3[0]), ('OCamL', 'Cython', 'Python'), loc='upper left')
-    ax.set_ylabel("Temps d'exécution")
+    ax.set_ylabel("Execution time")
     ax.set_xticks(x)
     ax.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles], size = 'small')
     
@@ -59,7 +59,7 @@ def benchmark(path='./Examples/'):
     ax2.plot(x,b, label="Cython", drawstyle='steps',color=color_Cython, linewidth = 1.5)   
     ax2.plot(x,c, label="Python", drawstyle='steps',color=color_Python, linewidth = 1.5)   
     
-    ax2.set_ylabel("Temps d'exécution")
+    ax2.set_ylabel("Execution time")
     ax2.set_xticks(x)
     ax2.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles])
     ax2.legend(loc='upper left', frameon=False) 
@@ -72,8 +72,8 @@ def benchmark(path='./Examples/'):
     ax3.bar(x, b, width, color=color_Cython, bottom=a, label="Cython")
     ax3.bar(x, c, width, color=color_Python, bottom=b, label="Python")
     
-    ax3.set_ylabel("Temps d'exécution relatif")
-    ax3.set_xlabel('Fichiers testés')
+    ax3.set_ylabel("Relative execution time")
+    ax3.set_xlabel('Tested files')
     
     ax3.set_xticks([i + width/2. for i in x])
     ax3.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles])

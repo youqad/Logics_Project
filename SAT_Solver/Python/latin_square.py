@@ -3,6 +3,10 @@ import numpy as np
 
 
 class LatinSquare(Grid):
+    """
+    Latin Square logic game : given a size n, build a n*n numbered grid in which a given appears only once in each row
+    and column
+    """
 
     def __init__(self, *args, prefix = 'latin_square', identifiers =[], original_grids = [], examples_folder='../Examples/',
                  color_map = ''):
@@ -47,11 +51,6 @@ class LatinSquare(Grid):
 
 
     def generate_grid(self, n, valuation, ax, original_grid = None):
-        # valuation = output[7:-2].split(' || ')[:-1]
-        # color_list = plt.cm.Set3(np.linspace(0, 1, n))
-        # grid = np.zeros((n,n),dtype='f,f,f,f')
-        # grid.fill((1.,1.,1.,1.))
-
         grid = np.zeros((n, n))
 
         for (k, i, j) in valuation:

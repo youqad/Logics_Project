@@ -5,6 +5,10 @@ import numpy as np
 from random import sample
 
 class Sudoku(LatinSquare):
+    """
+    Sudoku game : a Latin Square in which each number appears only once in each subgrid*subgrid block
+
+    """
     def __init__(self, *args, subgrids_size=3, examples_folder='../Examples/', color_map = '', random=None, solvable=True):
         assert args
         self.subgrids_size = subgrids_size
@@ -83,7 +87,11 @@ class Sudoku(LatinSquare):
 
     @staticmethod
     def random_sudoku(n, number_of_fixed_coeff, solvable = True):
-        """Return a randomly filled n x n Sudoku grid."""
+        """
+        Return a randomly filled n*n Sudoku grid.
+        The "solvable" option ensures there exists a solution, since a completeley filled Sudoku grid is generated
+        before erasing n*n-number_of_fixed_coeff numbers.
+        """
         grid = [[None for i in range(n)] for j in range(n)]
         m = sqrt(n)
         assert int(m) == m
@@ -143,14 +151,16 @@ class Sudoku(LatinSquare):
     # Medium : '091300050080054100000060090010006003006000800500400060040070000009130020060008710'
     
 
-# L = Sudoku(('700020005','600710000','000005907','030080740','006000100','049060020','903100000','000053001','500090002'), ('620900800','008200090','070608300','000002405','000000000','305400000','009307040','040009100','007004062'), subgrids_size=3)
+G = Sudoku(('700020005','600710000','000005907','030080740','006000100','049060020','903100000','000053001','500090002'), ('620900800','008200090','070608300','000002405','000000000','305400000','009307040','040009100','007004062'), subgrids_size=3)
+# G.show()
+
+
+L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3)
 # L.show()
 
+M = Sudoku(9, random=37, solvable=False)
+# M.show()
 
-# L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3)
-#
-# L.show()
 
-M = Sudoku(9, random=40, solvable=False)
-
-M.show()
+N = Sudoku(9, random=27, solvable=True)
+N.show()

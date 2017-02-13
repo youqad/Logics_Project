@@ -4,6 +4,29 @@ from urllib.request import urlopen
 
 
 class Picross(Grid):
+    """
+    Picross game :
+
+    Example
+    Problem:                 Solution:
+
+    . . . . . . . .  3       . # # # . . . .  3
+    . . . . . . . .  2 1     # # . # . . . .  2 1
+    . . . . . . . .  3 2     . # # # . . # #  3 2
+    . . . . . . . .  2 2     . . # # . . # #  2 2
+    . . . . . . . .  6       . . # # # # # #  6
+    . . . . . . . .  1 5     # . # # # # # .  1 5
+    . . . . . . . .  6       # # # # # # . .  6
+    . . . . . . . .  1       . . . . # . . .  1
+    . . . . . . . .  2       . . . # # . . .  2
+    1 3 1 7 5 3 4 3          1 3 1 7 5 3 4 3
+    2 1 5 1                  2 1 5 1
+    The problem above could be represented by :
+
+    L = [[[3], [2,1], [3,2], [2,2], [6], [1,5], [6], [1], [2]],
+    [[1,2], [3,1], [1,5], [7,1], [5], [3], [4], [3]]]
+
+    """
     def __init__(self, *args, prefix = 'picross', identifiers=[], examples_folder='../Examples/', color_map = ''):
         assert args
         dimensions = []
@@ -208,7 +231,6 @@ class Picross(Grid):
 # P = Picross([[[3],[5],[4,3],[7],[5],[3],[5],[1,8],[3,3,3],[7,3,2],[5,4,2],[8,2],[10],[2,3],[6]],
 # [[3],[4],[5],[4],[5],[6],[3,2,1],[2,2,5],[4,2,6],[8,2,3],[8,2,1,1],[2,6,2,1],[4,6],[2,4],[1]]])
 
-# P = Picross("http://www.fil.univ-lille1.fr/~hym/e/aac/sat/warship.cwd")
 # P = Picross("https://gist.githubusercontent.com/youqad/214e7df3f40dde0cfd467eb12a6d07c8/raw/124866402f84747ea5279c9fc95761778ddc484b/gistfile1.txt")
 # P = Picross("https://gist.githubusercontent.com/youqad/1ac91abe875821461aa6e00673a19df9/raw/e703483bdd75563ce33c22b6b17fca35f5b844bf/gistfile1.txt")
 
@@ -227,6 +249,5 @@ P = Picross("https://gist.githubusercontent.com/youqad/8d4d0a5da468243aae08a333c
 
 # P = Picross("https://gist.githubusercontent.com/youqad/74f271fae6aa78d1646b6b02e60c6369/raw/3dec0764fd4d3c1b87882021d295b3924a2784ed/gistfile1.txt")
 
-print(P.original_grids)
-print(P.file_names)
+
 P.show()

@@ -5,6 +5,11 @@ from random import sample
 
 
 class Grid():
+    """
+    The main class from which the different logic games inherit.
+    Once the instances of the game have been translated into CNF clauses, resorts to the OCamL SAT solver,
+    and then translates the valuation back into a game grid.
+    """
     _created_files = False
 
     _color_maps = frozenset(
@@ -53,6 +58,7 @@ class Grid():
             yield output
 
     def create_files(self):
+        """Create the files corresponding to the string outputs of the class in the 'examples_folder'"""
         for n, file_name, output in zip(self.square_dimensions, self.file_names, self.outputs):
             with open(self.examples_folder + file_name, 'w') as f:
                 f.write('c ' + file_name + ' : ' + ' '.join(self.prefix.split('_')).capitalize() + ' CNF file python generated.\n')
@@ -60,7 +66,7 @@ class Grid():
         self._created_files = True
 
     def show(self):
-
+        """Display a matplotlib graph of the resolved grid"""
         if not self._created_files:
             self.create_files()
 
@@ -92,12 +98,16 @@ class Grid():
         plt.show()
 
     def generate_grid(self, dimensions, valuation, ax, original_grid = None):
+        """Abstract inherited method : generate the grid corresponding to a given valuation,
+        and affects the axes of the matplotlib graph as a result"""
         raise NotImplementedError
 
     def generate_file(self, dimensions, original_grid=None, verbose=False):
+        """Abstract inherited method : translate an game instance of a given dimension into CNF clauses"""
         raise NotImplementedError
 
     @staticmethod
     def decode_literals(dimensions, l):
+        """Abstract inherited method : interpret a integer literal"""
         raise NotImplementedError
 
