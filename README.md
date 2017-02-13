@@ -389,8 +389,8 @@ chmod +x ./benchmarks.sh
 ./benchmarks.sh
 ```
 
-||OCamL|Cython|Python
--|-|-|-
+||OCamL|Cython|Python|
+---|---|---|---|
 latin_square_3.txt|0m0.006s|0m0.093s|0m0.155s
 latin_square_4.txt|0m0.019s|0m0.126s|0m0.215s
 latin_square_9.txt|0m0.916s|0m6.290s|0m7.101s
