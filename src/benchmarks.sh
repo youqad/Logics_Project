@@ -1,5 +1,5 @@
 #!/bin/bash
-files=./Examples/*
+files=./Examples/Simple/*
 output=time.txt
 echo "||OCamL|Cython|Python">$output
 echo "-|-|-|-">>$output

@@ -17,12 +17,13 @@ class Sudoku(LatinSquare):
         identifiers = []
 
         if random:
-            args = (grid for grid in self.random(*args, param=random, solvable=solvable))
+            grids = self.random(*args, param=random, solvable=solvable)
+            args = (grid for grid in grids)
 
         for grid in args:
             reshaped_grid = []
             identifier = ''
-            
+
             number_coefficients = 0
             for coeff in chain.from_iterable(grid):
                 number_coefficients+=1
@@ -30,26 +31,25 @@ class Sudoku(LatinSquare):
                 
             dimension = sqrt(number_coefficients)
             
-            for coeff in chain.from_iterable(grid):
+            for coeff in reshaped_grid:
                 if identifier or 1<= int(coeff) <= dimension:
                     if not (1<= int(coeff) <= dimension):
                         coeff = 0
                     identifier += str(coeff)
-            
+
+
             assert dimension == int(dimension)
-            assert dimension/subgrids_size == int(dimension/subgrids_size)
+            assert dimension/self.subgrids_size == int(dimension/self.subgrids_size)
             
             dimension = int(dimension)
             square_dimensions.append(dimension)
             
             reshaped_grid = np.array(reshaped_grid).reshape((dimension, dimension))
             reshaped_grids.append(reshaped_grid)
-            
+
             identifier = np.base_repr(int(identifier),36)
             identifiers.append(identifier)
-            
-        print(reshaped_grids)
-        print(square_dimensions)
+
         LatinSquare.__init__(self, *square_dimensions, prefix = 'sudoku', identifiers=identifiers, original_grids = reshaped_grids,
                              examples_folder=examples_folder, color_map=color_map)
 
@@ -83,6 +83,7 @@ class Sudoku(LatinSquare):
     def random(self, *args, param=27, solvable=True):
         if isinstance(param, int):
             for n in args:
+                self.subgrids_size = int(sqrt(n))
                 yield self.random_sudoku(n, param, solvable)
 
     @staticmethod
@@ -127,7 +128,7 @@ class Sudoku(LatinSquare):
                 return None
 
         grid = grid_filled_up_to()
-        return ''.join((str(grid[i][j]) if (i,j) in not_erased_coefficients else '0') for i in range(n) for j in range(n))
+        return (((grid[i][j],) if (i,j) in not_erased_coefficients else (0,)) for i in range(n) for j in range(n))
 
 
 
@@ -151,16 +152,17 @@ class Sudoku(LatinSquare):
     # Medium : '091300050080054100000060090010006003006000800500400060040070000009130020060008710'
     
 
-G = Sudoku(('700020005','600710000','000005907','030080740','006000100','049060020','903100000','000053001','500090002'), ('620900800','008200090','070608300','000002405','000000000','305400000','009307040','040009100','007004062'), subgrids_size=3)
-# G.show()
+# G = Sudoku(('700020005','600710000','000005907','030080740','006000100','049060020','903100000','000053001','500090002'), ('620900800','008200090','070608300','000002405','000000000','305400000','009307040','040009100','007004062'), subgrids_size=3)
+# # G.show()
+#
+#
+# L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3)
+# # L.show()
+#
+# M = Sudoku(9, random=37, solvable=False)
+# # M.show()
 
 
-L = Sudoku('091300050080054100000060090010006003006000800500400060040070000009130020060008710', subgrids_size=3)
-# L.show()
+N = Sudoku(16, random=180, solvable=True)
 
-M = Sudoku(9, random=37, solvable=False)
-# M.show()
-
-
-N = Sudoku(9, random=27, solvable=True)
 N.show()

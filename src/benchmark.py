@@ -4,7 +4,7 @@ import re
 from timeit import timeit
 from matplotlib import pyplot as plt
  
-def benchmark(path='./Examples/'):
+def benchmark(path='./Examples/Simple/'):
     N = 1
     OCamL, Python, Cython = [], [], []
     color_OCamL, color_Python, color_Cython = 'orange', 'b', 'g'
@@ -42,13 +42,13 @@ def benchmark(path='./Examples/'):
     ax.legend( (rects1[0], rects2[0],rects3[0]), ('OCamL', 'Cython', 'Python'), loc='upper left')
     ax.set_ylabel("Execution time")
     ax.set_xticks(x)
-    ax.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles], size = 'small')
+    ax.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles], size = 'small', rotation=45)
     
     def autolabel(rects):
         for rect in rects:
             h = rect.get_height()
             ax.text(rect.get_x()+rect.get_width()/2., 1.03*h, "{0:.2f}".format(h),
-                    ha='center', va='bottom', size = 'xx-small')        
+                    ha='center', va='bottom', size = 'xx-small', rotation=45)
 
     autolabel(rects1)
     autolabel(rects2)
@@ -76,7 +76,7 @@ def benchmark(path='./Examples/'):
     ax3.set_xlabel('Tested files')
     
     ax3.set_xticks([i + width/2. for i in x])
-    ax3.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles])
+    ax3.set_xticklabels([(s[:10] + '..') if len(s) >10 else s for s in namefiles], rotation=45)
     ax3.legend(loc='upper left')
 
     plt.tight_layout()
